@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @Service
 public class FamilyMemberService {
 
@@ -92,4 +93,5 @@ public class FamilyMemberService {
     public Set<FamilyMember> getAllFamilyMembers() {
         return Set.copyOf(familyMemberRepository.findAll());
     }
+
 }

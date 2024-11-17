@@ -13,7 +13,7 @@ public class FamilyMemberDTO {
 
     private String name;
 
-    private Integer generation; // Campo 'generation' como discutimos anteriormente
+    private Integer generation; // Campo 'generation'
 
     private Set<FamilyMemberSimpleDTO> parents; // Detalles de los padres
 

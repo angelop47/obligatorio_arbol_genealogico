@@ -32,4 +32,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleParentNotFoundException(ParentNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
 }
