@@ -18,7 +18,7 @@ public class FamilyMemberDTO {
     @Min(value = 1, message = "El grado debe ser al menos 1")
     private Integer degree;
 
-    private Long parentId; // ID del padre o antecesor
+    private Set<Long> parentIds; // IDs de los padres o antecesores
 
     private Set<Long> childIds; // Opcional: IDs de los hijos
 }

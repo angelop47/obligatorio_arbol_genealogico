@@ -24,7 +24,7 @@ public class FamilyMemberController {
         FamilyMember created = familyMemberService.createFamilyMember(
                 dto.getName(),
                 dto.getDegree(),
-                dto.getParentId()
+                dto.getParentIds()
         );
         FamilyMemberDTO responseDto = convertToDTO(created);
         return ResponseEntity.ok(responseDto);
@@ -49,6 +49,14 @@ public class FamilyMemberController {
         return ResponseEntity.ok(dtos);
     }
 
+    // Endpoint para agregar padres a un miembro existente
+    @PutMapping("/{id}/parents")
+    public ResponseEntity<FamilyMemberDTO> addParentsToFamilyMember(@PathVariable Long id, @Valid @RequestBody FamilyMemberDTO updateDto) {
+        FamilyMember updated = familyMemberService.addParents(id, updateDto.getParentIds());
+        FamilyMemberDTO responseDto = convertToDTO(updated);
+        return ResponseEntity.ok(responseDto);
+    }
+
     // Método para convertir entidad a DTO
     private FamilyMemberDTO convertToDTO(FamilyMember member) {
         FamilyMemberDTO dto = new FamilyMemberDTO();
@@ -56,9 +64,12 @@ public class FamilyMemberController {
         dto.setName(member.getName());
         dto.setDegree(member.getDegree());
         if (!member.getParents().isEmpty()) {
-            dto.setParentId(member.getParents().iterator().next().getId()); // Asumiendo un único padre
+            Set<Long> parentIds = member.getParents().stream()
+                    .map(FamilyMember::getId)
+                    .collect(Collectors.toSet());
+            dto.setParentIds(parentIds);
         }
-        // Opcional: Mapear hijos
+        // Mapear hijos
         dto.setChildIds(member.getChildren().stream()
                 .map(FamilyMember::getId)
                 .collect(Collectors.toSet()));
