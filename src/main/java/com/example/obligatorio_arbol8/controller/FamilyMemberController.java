@@ -2,6 +2,7 @@ package com.example.obligatorio_arbol8.controller;
 
 import com.example.obligatorio_arbol8.dto.FamilyMemberCreateDTO;
 import com.example.obligatorio_arbol8.dto.FamilyMemberDTO;
+import com.example.obligatorio_arbol8.dto.FamilyMemberSimpleDTO;
 import com.example.obligatorio_arbol8.entity.FamilyMember;
 import com.example.obligatorio_arbol8.service.FamilyMemberService;
 import jakarta.validation.Valid;
@@ -57,22 +58,25 @@ public class FamilyMemberController {
         return ResponseEntity.ok(responseDto);
     }
 
-    // Método para convertir entidad a DTO
+    // Método para convertir entidad a DTO con detalles de padres e hijos
     private FamilyMemberDTO convertToDTO(FamilyMember member) {
         FamilyMemberDTO dto = new FamilyMemberDTO();
         dto.setId(member.getId());
         dto.setName(member.getName());
         dto.setGeneration(member.getGeneration());
-        if (!member.getParents().isEmpty()) {
-            Set<Long> parentIds = member.getParents().stream()
-                    .map(FamilyMember::getId)
-                    .collect(Collectors.toSet());
-            dto.setParentIds(parentIds);
-        }
-        // Mapear hijos
-        dto.setChildIds(member.getChildren().stream()
-                .map(FamilyMember::getId)
-                .collect(Collectors.toSet()));
+
+        // Mapear padres a FamilyMemberSimpleDTO
+        Set<FamilyMemberSimpleDTO> parentDtos = member.getParents().stream()
+                .map(parent -> new FamilyMemberSimpleDTO(parent.getId(), parent.getName()))
+                .collect(Collectors.toSet());
+        dto.setParents(parentDtos);
+
+        // Mapear hijos a FamilyMemberSimpleDTO
+        Set<FamilyMemberSimpleDTO> childDtos = member.getChildren().stream()
+                .map(child -> new FamilyMemberSimpleDTO(child.getId(), child.getName()))
+                .collect(Collectors.toSet());
+        dto.setChildren(childDtos);
+
         return dto;
     }
 }

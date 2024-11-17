@@ -11,13 +11,11 @@ import java.util.Set;
 public class FamilyMemberDTO {
     private Long id;
 
-    @NotBlank(message = "El nombre es obligatorio")
     private String name;
 
-    // Eliminamos la anotación @NotNull y @Min porque 'generation' será asignado automáticamente
-    private Integer generation; // Renombrado de 'degree' a 'generation'
+    private Integer generation; // Campo 'generation' como discutimos anteriormente
 
-    private Set<Long> parentIds; // IDs de los padres o antecesores
+    private Set<FamilyMemberSimpleDTO> parents; // Detalles de los padres
 
-    private Set<Long> childIds; // Opcional: IDs de los hijos
+    private Set<FamilyMemberSimpleDTO> children; // Detalles de los hijos
 }

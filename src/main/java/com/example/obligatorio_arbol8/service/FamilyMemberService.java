@@ -92,5 +92,4 @@ public class FamilyMemberService {
     public Set<FamilyMember> getAllFamilyMembers() {
         return Set.copyOf(familyMemberRepository.findAll());
     }
-
 }

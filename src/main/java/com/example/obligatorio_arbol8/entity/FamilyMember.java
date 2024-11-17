@@ -27,7 +27,7 @@ public class FamilyMember {
 
     private String name;
 
-    private Integer generation; // Renombrado de 'degree' a 'generation'
+    private Integer generation; // Campo 'generation'
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
