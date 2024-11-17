@@ -14,9 +14,8 @@ public class FamilyMemberDTO {
     @NotBlank(message = "El nombre es obligatorio")
     private String name;
 
-    @NotNull(message = "El grado es obligatorio")
-    @Min(value = 1, message = "El grado debe ser al menos 1")
-    private Integer degree;
+    // Eliminamos la anotación @NotNull y @Min porque 'generation' será asignado automáticamente
+    private Integer generation; // Renombrado de 'degree' a 'generation'
 
     private Set<Long> parentIds; // IDs de los padres o antecesores
 

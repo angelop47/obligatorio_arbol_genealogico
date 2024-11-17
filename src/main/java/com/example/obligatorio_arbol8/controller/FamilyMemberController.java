@@ -1,5 +1,6 @@
 package com.example.obligatorio_arbol8.controller;
 
+import com.example.obligatorio_arbol8.dto.FamilyMemberCreateDTO;
 import com.example.obligatorio_arbol8.dto.FamilyMemberDTO;
 import com.example.obligatorio_arbol8.entity.FamilyMember;
 import com.example.obligatorio_arbol8.service.FamilyMemberService;
@@ -20,10 +21,9 @@ public class FamilyMemberController {
 
     // Crear un nuevo miembro
     @PostMapping
-    public ResponseEntity<FamilyMemberDTO> createFamilyMember(@Valid @RequestBody FamilyMemberDTO dto) {
+    public ResponseEntity<FamilyMemberDTO> createFamilyMember(@Valid @RequestBody FamilyMemberCreateDTO dto) {
         FamilyMember created = familyMemberService.createFamilyMember(
                 dto.getName(),
-                dto.getDegree(),
                 dto.getParentIds()
         );
         FamilyMemberDTO responseDto = convertToDTO(created);
@@ -51,7 +51,7 @@ public class FamilyMemberController {
 
     // Endpoint para agregar padres a un miembro existente
     @PutMapping("/{id}/parents")
-    public ResponseEntity<FamilyMemberDTO> addParentsToFamilyMember(@PathVariable Long id, @Valid @RequestBody FamilyMemberDTO updateDto) {
+    public ResponseEntity<FamilyMemberDTO> addParentsToFamilyMember(@PathVariable Long id, @Valid @RequestBody FamilyMemberCreateDTO updateDto) {
         FamilyMember updated = familyMemberService.addParents(id, updateDto.getParentIds());
         FamilyMemberDTO responseDto = convertToDTO(updated);
         return ResponseEntity.ok(responseDto);
@@ -62,7 +62,7 @@ public class FamilyMemberController {
         FamilyMemberDTO dto = new FamilyMemberDTO();
         dto.setId(member.getId());
         dto.setName(member.getName());
-        dto.setDegree(member.getDegree());
+        dto.setGeneration(member.getGeneration());
         if (!member.getParents().isEmpty()) {
             Set<Long> parentIds = member.getParents().stream()
                     .map(FamilyMember::getId)
